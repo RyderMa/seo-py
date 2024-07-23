@@ -5,7 +5,7 @@ class ArticleController():
     def __init__(self):
         self.model = ArticleOrm()
 
-    def get_article_list(self):
-        data, total = self.model.get_article_list()
+    def get_article_list(self, request):
+        data, total = self.model.get_article_list(request)
 
         return data, total

@@ -7,7 +7,7 @@ class ArticleView():
     @staticmethod
     async def get(request: Request):
         controller = ArticleController()
-        data, total = controller.get_article_list()
+        data, total = controller.get_article_list(request)
         print('data', type(data))
         return get_resp(data={'data-list': data, 'total': total})
 
