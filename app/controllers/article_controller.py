@@ -9,3 +9,8 @@ class ArticleController():
         data, total = self.model.get_article_list(request)
 
         return data, total
+
+    def get_article_detail(self, request):
+        data = self.model.get_article_detail(request)
+
+        return data
