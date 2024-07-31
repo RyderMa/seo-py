@@ -1,3 +1,3 @@
 __pycache__
-.even
-.vscode
+.venv/
+.vscode/
