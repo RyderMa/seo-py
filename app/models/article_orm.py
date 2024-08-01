@@ -5,6 +5,8 @@ from app.models.model import *
 from utils import connection
 from fastapi import Request
 
+PAGE_SIZE = 12
+
 
 class ArticleOrm:
     def __init__(self) -> None:
@@ -22,7 +24,7 @@ class ArticleOrm:
             params = request.query_params
             type = params.get('type')
             page = int(params.get('page') or 1)
-            res = session.query(Article).join(
+            res = session.query(Article, ArticleImg).join(
                 ArticleImg, ArticleImg.article_id == Article.article_id, isouter=True).join(
                     DictArticleType, DictArticleType.dict_article_type_id == Article.type_level_1).filter(
                         Article.delete_flag == 0)
@@ -32,9 +34,12 @@ class ArticleOrm:
 
             res = res.order_by(Article.add_time.desc())
             total = res.count()
-            data = res.offset((page - 1) * 12).limit(12).all()
+            res = res.offset((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).all()
 
-            return data, total
+            # data = [{'title': title, "id": article_id, "desc": desc, "publish_time": publish_time,
+            #         "pv": pv} for title, article_id, desc, publish_time, pv in res]
+
+            return res, total
 
     def get_article_detail(self, request: Request):
         with self.connection(self.DBSession) as session:

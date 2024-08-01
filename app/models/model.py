@@ -29,6 +29,26 @@ class App(Base):
     description = Column(Text, comment='应用首页描述')
 
 
+class Template(Base):
+    __tablename__ = 'template'
+    __table_args__ = {'comment': 'html模版表'}
+
+    template_id = Column(String(64), primary_key=True,
+                         server_default=text("uuid()"), comment='主键id')
+    template_name = Column(String(255), comment='模版名')
+    config = Column(Text, comment='模版配置数据')
+    tp_user_id = Column(String(64), comment='创建人id')
+    add_time = Column(TIMESTAMP, nullable=False, server_default=text(
+        "current_timestamp()"), comment='创建时间')
+    update_time = Column(TIMESTAMP, nullable=False, server_default=text(
+        "current_timestamp() ON UPDATE current_timestamp()"), comment='更新时间')
+    delete_flag = Column(TINYINT(4), nullable=False,
+                         server_default=text("0"), comment='删除标记')
+    static_path = Column(String(255), comment='静态模版路径')
+    key = Column(String(255), nullable=False,
+                 comment='模版key值，home-首页列表, detail-详情')
+
+
 class AppTemplate(Base):
     __tablename__ = 'app_template'
     __table_args__ = {'comment': '应用模版配置数据表'}

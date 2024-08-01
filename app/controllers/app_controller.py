@@ -11,6 +11,9 @@ class AppController():
 
     def get_app_detail(self, request):
         data = self.model.get_app_detail(request)
+        if data is not None:
+            templates = self.model.get_app_template(request)
+            data['templates'] = templates
         return data
 
     def get_app_template(self, request):
